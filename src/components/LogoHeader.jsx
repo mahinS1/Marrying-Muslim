@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 const LogoHeader = () => {
    const [scrolled, setScrolled] = useState(false);
-     const [menuOpen, setMenuOpen] = useState(false);
    
      useEffect(() => {
        const handleScroll = () => {

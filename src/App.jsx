@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import CookiePolicy from "./pages/CookiePolicy";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/termsandconditions" element={<TermsConditions />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
@@ -38,7 +40,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <ToastContainer
-        position="bottom-right"
+        position="top-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop

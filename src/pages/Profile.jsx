@@ -73,7 +73,9 @@ const Profile = () => {
                   dbRef(realtimeDb, "users/" + user.uid + "/phone")
                 );
                 if (snap.exists()) setPhoneFromRealtime(snap.val());
-              } catch (e) {}
+              } catch (e) {
+                // ignore
+              }
             }
             // Load privacy settings if present
             if (data.profileSettings) {
@@ -113,18 +115,6 @@ const Profile = () => {
     if (loading) {
       return <LoadingSpinner message="Loading profile..." />;
     }
-
-    // Online status dot (only show if enabled)
-    const statusDot = showOnlineStatus ? (
-      <span
-        className="inline-block w-3 h-3 rounded-full mr-2 align-middle"
-        style={{
-          backgroundColor: onlineStatus === "online" ? "#22c55e" : "#d1d5db",
-          border: "1px solid #888",
-        }}
-        title={onlineStatus === "online" ? "Online" : "Offline"}
-      />
-    ) : null;
 
     switch (activeTab) {
       case "Personal":
@@ -813,7 +803,7 @@ const Profile = () => {
                         });
                         toast.success("Privacy settings saved!");
                       }
-                    } catch (err) {
+                    } catch {
                       toast.error("Failed to save privacy settings");
                     } finally {
                       setSaving(false);

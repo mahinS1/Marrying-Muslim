@@ -26,6 +26,26 @@ const Dashboard = () => {
             }
             setProfileViews(profileData.profileViews || 0);
             setProfileViewHistory(profileData.profileViewHistory || []);
+            return;
+          }
+        }
+      } catch {
+        // Ignore and fallback to localStorage
+      }
+      // Fallback: get from localStorage
+      const loggedInUser = localStorage.getItem("loggedInUser");
+      if (loggedInUser) {
+        try {
+          const user = JSON.parse(loggedInUser);
+          setUsername(user.username || "User");
+        } catch {
+          setUsername("User");
+        }
+      }
+    };
+    fetchProfile();
+  }, []);
+
   useEffect(() => {
     // Calculate % change in views from last week
     if (!profileViewHistory.length) {
@@ -47,25 +67,6 @@ const Dashboard = () => {
     else if (prevWeek === 0 && lastWeek === 0) setViewChange(0);
     else setViewChange(Math.round(((lastWeek - prevWeek) / prevWeek) * 100));
   }, [profileViewHistory]);
-            return;
-          }
-        }
-      } catch (e) {
-        // Ignore and fallback to localStorage
-      }
-      // Fallback: get from localStorage
-      const loggedInUser = localStorage.getItem("loggedInUser");
-      if (loggedInUser) {
-        try {
-          const user = JSON.parse(loggedInUser);
-          setUsername(user.username || "User");
-        } catch {
-          setUsername("User");
-        }
-      }
-    };
-    fetchProfile();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

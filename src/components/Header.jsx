@@ -8,6 +8,7 @@ import { Menu, X } from 'lucide-react';
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Home page: show nav if not logged in, else show logo + go to profile button
   if (location.pathname === '/') {
@@ -15,9 +16,9 @@ const Header = () => {
     try {
       const user = JSON.parse(localStorage.getItem('loggedInUser'));
       if (user) isLoggedIn = true;
-    } catch {}
-
-    const [menuOpen, setMenuOpen] = useState(false);
+    } catch {
+      // ignore
+    }
 
     return (
       <header className="sticky top-0 z-50 transition-all duration-300 bg-white">
@@ -40,6 +41,9 @@ const Header = () => {
             ) : (
               <>
                 <nav className="hidden md:flex items-center space-x-8">
+                  <Link to="/payment" className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
+                    Pricing
+                  </Link>
                   <a href="#howitworks" className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer">
                     How It Works
                   </a>
@@ -62,6 +66,9 @@ const Header = () => {
                 {/* Mobile menu dropdown */}
                 {menuOpen && (
                   <div className="absolute top-16 right-4 left-4 bg-white shadow-lg rounded-lg p-4 flex flex-col space-y-4 z-50 md:hidden">
+                    <Link to="/payment" className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer block">
+                      Pricing
+                    </Link>
                     <a href="#howitworks" className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer block">
                       How It Works
                     </a>

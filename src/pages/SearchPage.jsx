@@ -1,6 +1,5 @@
 import LiveProfilePreview from '../components/LiveProfilePreview';
 import React, { useState, useEffect } from "react";
-import { countriesList } from '../utils/countries';
 
 // Capitalize each word in a string
 function capitalizeWords(str) {
@@ -13,7 +12,7 @@ function capitalizeOptions(arr) {
 }
 import LoadingSpinner from '../components/LoadingSpinner';
 import ViewProfile from './ViewProfile';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Search,
   Grid,
@@ -27,8 +26,8 @@ import {
   Bell,
   ArrowDownCircle,
 } from "lucide-react";
-import { auth, db, realtimeDb } from '../firebase/firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { auth, db } from '../firebase/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 import { toast } from 'react-toastify';
 import AuthenticatedHeader from '../components/AuthenticatedHeader';
@@ -45,18 +44,6 @@ const educationLevels = capitalizeOptions([
   "PhD",
   "Diploma",
   "Other"
-]);
-const professions = capitalizeOptions([
-  "All Professions",
-  "Engineer",
-  "Doctor",
-  "Teacher",
-  "Manager",
-  "Nurse",
-  "Architect",
-  "Software Engineer",
-  "Business Analyst",
-  "Consultant",
 ]);
 
 const getInitialProfilesToShow = () => {
@@ -83,7 +70,6 @@ const SearchPage = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  const navigate = useNavigate();
   const [isGridView, setIsGridView] = useState(true);
   const [viewProfileId, setViewProfileId] = useState(null);
   const [sortBy, setSortBy] = useState("Newest First");
@@ -139,7 +125,7 @@ const SearchPage = () => {
                   age = 25;
                 }
               }
-            } catch (error) {
+            } catch {
               age = 25;
             }
           }
@@ -196,7 +182,7 @@ const SearchPage = () => {
         const usersCollection = collection(db, 'users');
         const usersSnapshot = await getDocs(usersCollection);
         console.log('users collection size:', usersSnapshot.size);
-      } catch (e) {
+      } catch {
         console.log('users collection does not exist or is not accessible');
       }
       
@@ -205,7 +191,7 @@ const SearchPage = () => {
         const profilesCollection = collection(db, 'profiles');
         const profilesSnapshot = await getDocs(profilesCollection);
         console.log('profiles collection size:', profilesSnapshot.size);
-      } catch (e) {
+      } catch {
         console.log('profiles collection does not exist or is not accessible');
       }
       
@@ -232,6 +218,7 @@ const SearchPage = () => {
     // Search query filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
+      console.log("Search query:", query);
       filtered = filtered.filter(profile => 
         profile.name.toLowerCase().includes(query) ||
         profile.location.toLowerCase().includes(query) ||
@@ -300,7 +287,7 @@ const SearchPage = () => {
     console.log('Final filtered profiles:', filtered.length);
     console.log('Filtered profiles:', filtered);
     setFilteredProfiles(filtered);
-  }, [profiles, searchQuery, ageRange, selectedCountry, selectedMaritalStatus, selectedEducation, selectedProfession, sortBy]);
+  }, [profiles, searchQuery, ageRange, selectedCountry, selectedMaritalStatus, selectedEducation, selectedProfession, sortBy, currentUserId]);
 
   // Removed online status effect
 
@@ -464,7 +451,6 @@ const SearchPage = () => {
     value,
     options,
     onChange,
-    placeholder,
   }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -485,7 +471,8 @@ const SearchPage = () => {
               className="fixed inset-0 z-10"
               onClick={() => setIsOpen(false)}
             />
-            <div className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+
+            <div className="absolute z-20 w-full min-w-max mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
               {options.map((option) => (
                 <button
                   key={option}
@@ -577,7 +564,6 @@ const SearchPage = () => {
                       value={selectedCountry}
                       options={countries}
                       onChange={setSelectedCountry}
-                      placeholder="Select Country"
                     />
                   </div>
 
@@ -590,7 +576,6 @@ const SearchPage = () => {
                       value={selectedMaritalStatus}
                       options={maritalStatuses}
                       onChange={setSelectedMaritalStatus}
-                      placeholder="Select Marital Status"
                     />
                   </div>
 
@@ -603,7 +588,6 @@ const SearchPage = () => {
                       value={selectedEducation}
                       options={educationLevels}
                       onChange={setSelectedEducation}
-                      placeholder="Select Education"
                     />
                   </div>
 
@@ -663,7 +647,6 @@ const SearchPage = () => {
                     value={sortBy}
                     options={sortOptions}
                     onChange={setSortBy}
-                    placeholder="Sort by"
                   />
                 </div>
               </div>

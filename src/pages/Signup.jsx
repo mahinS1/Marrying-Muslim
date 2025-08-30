@@ -5,9 +5,8 @@ import logo from '../assets/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { auth, db } from '../firebase/firebase';
+import { auth } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 import { ref, set } from 'firebase/database';
 import { realtimeDb } from '../firebase/firebase';
 

@@ -40,7 +40,8 @@ export const ReligiousInfoStep: React.FC<ReligiousInfoStepProps> = ({ data, onCh
   }, [openDropdown]);
   
   const sunniOptions = [
-    { value: 'Yes Sunni', label: 'Yes Sunni' },
+    { value: 'Yes ', label: 'Yes ' },
+    { value: 'No', label: 'No' },
   ];
 
   const revertOptions = [

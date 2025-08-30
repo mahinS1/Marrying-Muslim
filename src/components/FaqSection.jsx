@@ -43,11 +43,7 @@ const faqData = [
     question: "Can I talk directly to potential matches?",
     answer: "Direct communication between non-mahram without guardian supervision is not permitted to maintain Islamic guidelines. All initial contact and arrangements are made through guardians to ensure proper Islamic conduct."
   },
-  {
-    id: 9,
-    question: "What if I don't have a guardian?",
-    answer: "If you don’t have a natural guardian, you can appoint a trusted Islamic scholar, imam, or righteous male relative."
-  },
+  
   {
     id: 10,
     question: "What behavior is not allowed?",
